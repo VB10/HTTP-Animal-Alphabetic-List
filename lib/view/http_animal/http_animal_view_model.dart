@@ -19,6 +19,7 @@ abstract class HttpAnimalViewModel extends State<HttpAnimal> {
   void initState() {
     super.initState();
     dio = Dio(BaseOptions(baseUrl: baseUrl));
+    getHttpAnimalList();
   }
 
   Future<void> getHttpAnimalList() async {

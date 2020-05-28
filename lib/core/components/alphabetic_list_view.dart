@@ -22,8 +22,8 @@ class AlphabeticListView<T extends BaseModel> extends StatefulWidget {
       this.physics,
       this.padding,
       this.shrinWrap,
-      this.list,
-      this.listKey,
+      @required this.list,
+      @required this.listKey,
       this.item,
       this.child})
       : super(key: key);
@@ -36,6 +36,9 @@ class _AlphabeticListViewState extends BaseState<AlphabeticListView> {
   List<String> _headList = [];
   List<Map<String, dynamic>> _mapList = [];
   List<Map<String, dynamic>> _mapListSerach = [];
+  int selectedValue = 0;
+
+  final Map<int, String> firstValueMap = {0: "-"};
 
   @override
   void initState() {
@@ -54,7 +57,18 @@ class _AlphabeticListViewState extends BaseState<AlphabeticListView> {
     }
   }
 
-  int selectedValue = 0;
+  void headListCreate(List<String> headers) {
+    _headList = _headersCharacter(headers);
+    _headList.insert(firstValueMap.keys.first, firstValueMap.values.first);
+  }
+
+  List<String> _headersCharacter(List<String> headers) {
+    final firstCharacterArray =
+        headers.map((e) => e.trim()[0]).toSet().toList();
+    firstCharacterArray.sort();
+    return firstCharacterArray;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -163,17 +177,5 @@ class _AlphabeticListViewState extends BaseState<AlphabeticListView> {
     setState(() {
       selectedValue = index;
     });
-  }
-
-  void headListCreate(List<String> headers) {
-    _headList = _headersCharacter(headers);
-    _headList.insert(0, "-");
-  }
-
-  List<String> _headersCharacter(List<String> headers) {
-    final firstCharacterArray =
-        headers.map((e) => e.trim()[0]).toSet().toList();
-    firstCharacterArray.sort();
-    return firstCharacterArray;
   }
 }
