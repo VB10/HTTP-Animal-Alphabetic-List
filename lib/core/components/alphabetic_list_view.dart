@@ -38,6 +38,8 @@ class _AlphabeticListViewState extends BaseState<AlphabeticListView> {
   List<Map<String, dynamic>> _mapListSerach = [];
   int selectedValue = 0;
 
+  final int firstIndex = 0;
+
   final Map<int, String> firstValueMap = {0: "-"};
 
   @override
@@ -96,11 +98,10 @@ class _AlphabeticListViewState extends BaseState<AlphabeticListView> {
         scrollDirection: Axis.vertical,
         itemCount: _headList.length,
         itemBuilder: (context, index) {
-          if (index == 0) {
+          if (index == firstIndex)
             return buildIconButtonAll(index);
-          } else {
+          else
             return Center(child: buildText(index));
-          }
         },
       ),
     );
@@ -159,7 +160,7 @@ class _AlphabeticListViewState extends BaseState<AlphabeticListView> {
   TextStyle get normalStyle => currentTheme.textTheme.headline6;
 
   void listMapParse(int index) {
-    if (index == 0) {
+    if (index == firstIndex) {
       _mapListSerach = _mapList;
     } else {
       _mapListSerach = _mapList.where((element) {
@@ -167,7 +168,7 @@ class _AlphabeticListViewState extends BaseState<AlphabeticListView> {
           return element.keys.where((subElement) {
             final _valueFirst = element[subElement].toString();
             return subElement == widget.listKey &&
-                _valueFirst[0] == _headList[index];
+                _valueFirst[firstIndex] == _headList[index];
           }).isNotEmpty;
         }
         return false;
